@@ -1,5 +1,5 @@
 import { Heap } from "./heap";
-import { Node } from "./Node";
+import { Node } from "./heap-node";
 
 export interface MinHeap extends Heap {
   insert(element: Node): void;

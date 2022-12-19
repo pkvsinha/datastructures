@@ -1,6 +1,6 @@
 import { Heap } from "./heap";
-import { Node } from "./Node";
+import { HeapNode } from "./heap-node";
 
 export interface MaxHeap extends Heap {
-  max(): Node;
+  max(): HeapNode;
 }
