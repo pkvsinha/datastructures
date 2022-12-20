@@ -1,23 +1,23 @@
-import { MaxHeap } from "./max-heap";
 import { HeapNode } from "./heap-node";
 import util from './heap-util';
+import { MinHeap } from "./min-heap";
 
-export default class BinaryMaxHeap<T extends HeapNode | number> implements MaxHeap<T> {
+export default class BinaryMinHeap<T extends HeapNode | number> implements MinHeap<T> {
   _arr: Array<T> = [];
 
-  max(): T {
+  min(): T {
     throw new Error("Method not implemented.");
   }
 
   insert(element: T): void {
     this._arr.push(element);
-    util.up(this._arr, this._arr.length - 1);
+    util.up(this._arr, this._arr.length - 1, 1);
   }
 
   remove(): T {
     let element = this._arr[0];
     this._arr[0] = this._arr[this._arr.length - 1];
-    util.down(this._arr, 0);
+    util.down(this._arr, 0, 1);
     return element;
   }
 

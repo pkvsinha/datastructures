@@ -1,31 +1,14 @@
 import { HeapNode } from "./heap-node";
 
-export interface Heap {
+export interface Heap<T> {
 
-  insert(element: HeapNode): void;
+  insert(element: T): void;
 
-  remove(): HeapNode;
+  remove(): T;
 
-  peek(): HeapNode;
+  peek(): T;
 
   size(): number;
 
   empty(): boolean;
-
-  /**
-   * remove the root element and push this new element.
-   * 
-   * @param element 
-   */
-  // replace(element: HeapNode): void;
-
-  // delete(element: HeapNode): void;
-
-  // increaseKey(element: HeapNode, key: number): void;
-
-  // decreaseKey(element: HeapNode, key: number): void;
-
-  // union(heap: Heap): void;
-
-  // meld(heap: Heap): Heap;
 }

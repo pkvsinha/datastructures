@@ -25,9 +25,10 @@ describe('Heap Util', () => {
     [
       { array: [3, 4, 9], i: 2, value: 9, k: 0 },
       { array: [12, 7, 6, 4, 8], i: 4, value: 8, k: 1 },
-      { array: [21, 17, 12, 4, 8, 23], i: 5, value: 23, k: 2 }
+      { array: [21, 17, 12, 4, 8, 23], i: 5, value: 23, k: 0 },
+      { array: [9, 3, 6, 18], i: 3, value: 18, k: 0 }
     ].forEach(({ array, i, value, k }) => {
-      it(`should move ${value} from ${i} to top, that is index ${k}`, () => {
+      it(`should move ${value} from ${i} to index ${k}`, () => {
         util.up(array, i);
         expect(array[k]).to.equal(value);
       })

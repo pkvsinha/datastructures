@@ -1,3 +1,11 @@
+function less(a: number, b: number) {
+  return a < b;
+}
+
+function greater(a: number, b: number) {
+  return a > b;
+}
+
 const util = {
   parent(index: number): number {
     return Math.floor((index - 1) / 2);
@@ -13,25 +21,36 @@ const util = {
     array[i] = array[j];
     array[j] = tmp;
   },
-  key(array : any[], index: number) {
+  key(array : any[], index: number): number {
     return array[index];
   },
-  up(array: any[], index: number) {
-    let parentIndex = util.parent(index);
-    while (util.key(array, index) > util.key(array, parentIndex)) {
-      util.swap(array, index, parentIndex);
+  up(array: any[], index: number, cmp = 0) {
+    let comparator = less;
+    if (cmp === 0) {
+      comparator = greater;
+    }
+    let swapIndex = index;
+    let parentIndex = util.parent(swapIndex);
+    while (comparator(util.key(array, swapIndex), util.key(array, parentIndex)) && parentIndex >= 0) {
+      util.swap(array, swapIndex, parentIndex);
+      swapIndex = parentIndex;
+      parentIndex = util.parent(swapIndex);
     } 
   },
-  down(array: any[], index: number) {
+  down(array: any[], index: number, cmp = 0) {
+    let comparator = less;
+    if (cmp === 0) {
+      comparator = greater;
+    }
     let nextIndex = index;
     while (nextIndex < array.length) {
       let left = util.left(nextIndex);
       let right = util.right(nextIndex);
       let swapIndex = left;
-      if (util.key(array, right) > util.key(array, swapIndex)) {
+      if (comparator(util.key(array, right), util.key(array, swapIndex))) {
         swapIndex = right;
       }
-      if (util.key(array, swapIndex) > util.key(array, nextIndex)) {
+      if (comparator(util.key(array, swapIndex), util.key(array, nextIndex))) {
         util.swap(array, nextIndex, swapIndex);
       } else {
         break;
