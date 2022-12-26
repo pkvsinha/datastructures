@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import util from '../heap-util';
 import { expect } from 'chai';
 

@@ -1,3 +1,3 @@
 export interface HeapNode {
-  comprateTo(): number;
+  compareTo(otherNode: HeapNode): number;
 }

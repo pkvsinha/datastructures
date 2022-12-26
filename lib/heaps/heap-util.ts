@@ -1,9 +1,34 @@
-function less(a: number, b: number) {
-  return a < b;
+import { Heap } from "./heap";
+import { HeapNode } from "./heap-node";
+
+type HeapNodeType = number | string | boolean | HeapNode;
+
+function compare(a: HeapNodeType, b: HeapNodeType): number {
+  switch(typeof a) {
+    case "string":
+    case "number":
+    case "boolean":
+      if (a === b) {
+        return 0;
+      } else if (a < b) {
+        return -1;
+      } else {
+        return 1;
+      }
+    default:
+      if (typeof a !== "undefined" && a  !== null && typeof a.compareTo === "function") {
+        return a.compareTo(<HeapNode>b);
+      }
+  }
+  return 0;
 }
 
-function greater(a: number, b: number) {
-  return a > b;
+function less(a: HeapNodeType, b: HeapNodeType) {
+  return compare(a, b) < 0;
+}
+
+function greater(a: HeapNodeType, b: HeapNodeType) {
+  return compare(a, b) > 0;
 }
 
 const util = {
@@ -21,23 +46,23 @@ const util = {
     array[i] = array[j];
     array[j] = tmp;
   },
-  key(array : any[], index: number): number {
+  key(array : HeapNodeType[], index: number): HeapNodeType {
     return array[index];
   },
-  up(array: any[], index: number, cmp = 0) {
+  up(array: HeapNodeType[], index: number, cmp = 0) {
     let comparator = less;
     if (cmp === 0) {
       comparator = greater;
     }
     let swapIndex = index;
     let parentIndex = util.parent(swapIndex);
-    while (comparator(util.key(array, swapIndex), util.key(array, parentIndex)) && parentIndex >= 0) {
+    while (parentIndex >= 0 && comparator(util.key(array, swapIndex), util.key(array, parentIndex))) {
       util.swap(array, swapIndex, parentIndex);
       swapIndex = parentIndex;
       parentIndex = util.parent(swapIndex);
     } 
   },
-  down(array: any[], index: number, cmp = 0) {
+  down(array: HeapNodeType[], index: number, cmp = 0) {
     let comparator = less;
     if (cmp === 0) {
       comparator = greater;
