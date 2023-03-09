@@ -46,4 +46,18 @@ describe('Heap Util', () => {
       })
     });
   });
+
+  describe('heapify', () => {
+    [
+      [3, 4, 5, 6],
+      [24,13,23,11,2,9,12,14,13],
+      [2,84,109,662,52,8,62,928]
+    ].forEach((array) => {
+      it('should heapify and tell when its not a heap', () => {
+        expect(util.isMaxHeap(array)).to.be.false;
+        util.heapify(array);
+        expect(util.isMaxHeap(array)).to.be.true;
+      })
+    });
+  });
 });

@@ -9,6 +9,4 @@ export interface Heap<T> {
   size(): number;
 
   empty(): boolean;
-
-  contains(element: T): boolean;
 }

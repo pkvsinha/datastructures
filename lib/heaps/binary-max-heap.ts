@@ -3,7 +3,16 @@ import { HeapNode } from "./heap-node";
 import util from './heap-util';
 
 export default class BinaryMaxHeap<T extends HeapNode | number> implements MaxHeap<T> {
-  _arr: Array<T> = [];
+  _arr: T[];
+
+  constructor(array?: T[]) {
+    if (array === undefined) {
+      this._arr = [];
+    } else {
+      this._arr = array;
+      util.heapify(this._arr);
+    }
+  }
 
   max(): T {
     throw new Error("Method not implemented.");

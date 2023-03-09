@@ -49,6 +49,26 @@ const util = {
   key(array : HeapNodeType[], index: number): HeapNodeType {
     return array[index];
   },
+  heapify(array : HeapNodeType[]) {
+    let N = array.length;
+    let mid = Math.floor(N / 2);
+    for (let i = mid - 1; i >= 0; i--) {
+      util.down(array, i);
+    }
+  },
+  isMaxHeap(array : HeapNodeType[]): boolean {
+    let N = array.length;
+    let mid = Math.floor(N / 2);
+    for (let i = mid - 1; i >= 0; i--) {
+      let leftKey = util.key(array, util.left(i));
+      let rightKey = util.key(array, util.right(i));
+      let currentKey = util.key(array, i);
+      if (leftKey > currentKey || rightKey > currentKey) {
+        return false;
+      }
+    }
+    return true;
+  },
   up(array: HeapNodeType[], index: number, cmp = 0) {
     let comparator = less;
     if (cmp === 0) {
@@ -60,26 +80,30 @@ const util = {
       util.swap(array, swapIndex, parentIndex);
       swapIndex = parentIndex;
       parentIndex = util.parent(swapIndex);
-    } 
+    }
   },
-  down(array: HeapNodeType[], index: number, cmp = 0) {
+  down(array: HeapNodeType[] & { heapSize?: number }, index: number, cmp = 0) {
     let comparator = less;
     if (cmp === 0) {
       comparator = greater;
     }
     let nextIndex = index;
-    while (nextIndex < array.length) {
-      let left = util.left(nextIndex);
-      let right = util.right(nextIndex);
-      let swapIndex = left;
-      if (comparator(util.key(array, right), util.key(array, swapIndex))) {
-        swapIndex = right;
+    while (nextIndex < (array.heapSize || array.length)) {
+      let leftIndex = util.left(nextIndex);
+      let rightIndex = util.right(nextIndex);
+      let swapIndex = nextIndex;
+      if (leftIndex < (array.heapSize || array.length) 
+          && comparator(util.key(array, leftIndex), util.key(array, swapIndex))) {
+        swapIndex = leftIndex;
       }
-      if (comparator(util.key(array, swapIndex), util.key(array, nextIndex))) {
-        util.swap(array, nextIndex, swapIndex);
-      } else {
+      if (rightIndex < (array.heapSize || array.length) 
+          && comparator(util.key(array, rightIndex), util.key(array, swapIndex))) {
+        swapIndex = rightIndex;
+      } 
+      if (swapIndex === nextIndex) {
         break;
       }
+      util.swap(array, nextIndex, swapIndex);
       nextIndex = swapIndex;
     }
   },
